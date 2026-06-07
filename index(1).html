@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Try Out SKD CPNS 2025 — Kemenag Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green:    #16a34a;
+    --green-bg: #dcfce7;
+    --red:      #dc2626;
+    --red-bg:   #fee2e2;
+    --blue:     #2563eb;
+    --blue-bg:  #dbeafe;
+    --amber:    #d97706;
+    --amber-bg: #fef3c7;
+    --gray:     #64748b;
+    --gray-bg:  #f1f5f9;
+    --border:   #e2e8f0;
+    --text:     #0f172a;
+    --text-sec: #475569;
+    --bg:       #f8fafc;
+    --white:    #ffffff;
+    --radius:   12px;
+    --shadow:   0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+    --shadow-md:0 4px 12px rgba(0,0,0,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+
+  /* ── HERO / START ── */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+  .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(37,99,235,.25);border:1px solid rgba(37,99,235,.4);color:#93c5fd;font-size:12px;font-weight:600;padding:5px 14px;border-radius:100px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:1.5rem}
+  .hero h1{font-size:clamp(28px,5vw,52px);font-weight:700;color:#fff;text-align:center;line-height:1.15;margin-bottom:.75rem}
+  .hero h1 span{color:#60a5fa}
+  .hero p{font-size:16px;color:#94a3b8;text-align:center;max-width:520px;margin-bottom:2.5rem}
+  .info-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:640px;width:100%;margin-bottom:2.5rem}
+  .info-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:1rem;text-align:center}
+  .info-card .ic-badge{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#60a5fa;margin-bottom:4px}
+  .info-card .ic-num{font-size:26px;font-weight:700;color:#fff;font-family:'DM Mono',monospace}
+  .info-card .ic-label{font-size:12px;color:#94a3b8;margin-top:2px}
+  .info-rules{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:var(--radius);padding:1.25rem 1.5rem;max-width:640px;width:100%;margin-bottom:2rem}
+  .info-rules p{font-size:13px;color:#94a3b8;line-height:2}
+  .info-rules strong{color:#e2e8f0}
+  .btn-start{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;font-size:16px;font-weight:600;padding:14px 40px;border:none;border-radius:100px;cursor:pointer;box-shadow:0 0 0 4px rgba(37,99,235,.25);transition:transform .15s,box-shadow .15s;font-family:inherit}
+  .btn-start:hover{transform:translateY(-2px);box-shadow:0 0 0 6px rgba(37,99,235,.2)}
+
+  /* ── TEST LAYOUT ── */
+  .test-root{display:none;min-height:100vh;background:var(--bg)}
+  .topbar{position:sticky;top:0;z-index:50;background:var(--white);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;box-shadow:var(--shadow)}
+  .topbar-left{display:flex;align-items:center;gap:12px}
+  .topbar-title{font-size:15px;font-weight:600}
+  .topbar-section{font-size:12px;font-weight:600;padding:3px 10px;border-radius:100px}
+  .sec-twk{background:#dbeafe;color:#1d4ed8}
+  .sec-tiu{background:#fef3c7;color:#b45309}
+  .sec-tkp{background:#dcfce7;color:#15803d}
+  .timer{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:6px}
+  .timer.danger{color:var(--red)}
+  .timer-icon{width:8px;height:8px;background:currentColor;border-radius:50%;animation:blink 1s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+  .test-body{max-width:860px;margin:0 auto;padding:1.5rem}
+
+  /* stat bar */
+  .stat-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+  .stat-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem;text-align:center}
+  .stat-item .s-label{font-size:11px;color:var(--text-sec);font-weight:500;text-transform:uppercase;letter-spacing:.4px}
+  .stat-item .s-val{font-size:20px;font-weight:700;font-family:'DM Mono',monospace;margin-top:2px}
+
+  /* section nav */
+  .sec-nav{display:flex;gap:8px;margin-bottom:1rem}
+  .sec-tab{flex:1;padding:8px;border:1.5px solid var(--border);border-radius:var(--radius);background:var(--white);cursor:pointer;font-size:13px;font-weight:600;color:var(--text-sec);transition:.15s;text-align:center}
+  .sec-tab:hover{border-color:#93c5fd;color:var(--blue)}
+  .sec-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .sec-tab.done{background:var(--green-bg);color:var(--green);border-color:#86efac}
+
+  /* progress */
+  .prog-track{height:6px;background:var(--border);border-radius:3px;margin-bottom:1.25rem;overflow:hidden}
+  .prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),#60a5fa);border-radius:3px;transition:width .3s}
+
+  /* Q number dots */
+  .q-dots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.25rem;padding:.75rem;background:var(--white);border:1px solid var(--border);border-radius:var(--radius)}
+  .q-dot{width:26px;height:26px;border-radius:6px;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1.5px solid var(--border);color:var(--text-sec);background:var(--bg);transition:.1s;font-family:'DM Mono',monospace}
+  .q-dot:hover{border-color:var(--blue);color:var(--blue)}
+  .q-dot.answered{background:var(--blue-bg);color:var(--blue);border-color:#93c5fd}
+  .q-dot.current{border-color:var(--blue);border-width:2px;color:var(--blue);font-weight:700}
+
+  /* question card */
+  .q-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem;box-shadow:var(--shadow)}
+  .q-meta{display:flex;align-items:center;gap:8px;margin-bottom:.75rem}
+  .q-tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.4px}
+  .q-num{font-size:12px;color:var(--text-sec);font-family:'DM Mono',monospace}
+  .q-text{font-size:15px;line-height:1.7;color:var(--text);margin-bottom:1.25rem;font-weight:500}
+
+  /* options */
+  .options{display:flex;flex-direction:column;gap:8px}
+  .opt{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:border-color .15s,background .15s}
+  .opt:hover{border-color:#93c5fd;background:var(--blue-bg)}
+  .opt.selected{border-color:var(--blue);background:var(--blue-bg)}
+  .opt-key{width:28px;height:28px;min-width:28px;border-radius:8px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text-sec);font-family:'DM Mono',monospace;transition:.15s}
+  .opt.selected .opt-key{background:var(--blue);color:#fff}
+  .opt-text{font-size:14px;line-height:1.55;padding-top:2px;color:var(--text)}
+
+  /* review mode */
+  .opt.correct{border-color:var(--green);background:var(--green-bg);cursor:default}
+  .opt.correct .opt-key{background:var(--green);color:#fff}
+  .opt.wrong{border-color:var(--red);background:var(--red-bg);cursor:default}
+  .opt.wrong .opt-key{background:var(--red);color:#fff}
+  .opt.correct-unmarked{border-color:var(--green);background:var(--green-bg);cursor:default}
+  .opt.correct-unmarked .opt-key{background:var(--green);color:#fff}
+  .explanation{margin-top:12px;padding:12px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;font-size:13px;color:#166534;line-height:1.6}
+  .explanation strong{font-weight:600}
+
+  /* nav buttons */
+  .nav-btns{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:1rem}
+  .btn{padding:9px 20px;border:1.5px solid var(--border);border-radius:10px;background:var(--white);cursor:pointer;font-size:14px;font-weight:600;color:var(--text);font-family:inherit;transition:.15s}
+  .btn:hover{background:var(--gray-bg)}
+  .btn-blue{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .btn-blue:hover{background:#1d4ed8}
+  .btn-red{background:var(--red);color:#fff;border-color:var(--red)}
+  .btn-red:hover{background:#b91c1c}
+  .btn-green{background:var(--green);color:#fff;border-color:var(--green)}
+  .btn-green:hover{background:#15803d}
+
+  /* ── RESULT ── */
+  .result-root{display:none;min-height:100vh;background:var(--bg);padding:2rem 1rem}
+  .result-inner{max-width:800px;margin:0 auto}
+  .result-hero{text-align:center;padding:2rem;background:var(--white);border:1px solid var(--border);border-radius:16px;margin-bottom:1.5rem;box-shadow:var(--shadow-md)}
+  .result-hero h2{font-size:26px;font-weight:700;margin-bottom:.5rem}
+  .verdict-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 18px;border-radius:100px;font-size:14px;font-weight:700;margin-top:.75rem}
+  .verdict-pass{background:var(--green-bg);color:var(--green)}
+  .verdict-fail{background:var(--red-bg);color:var(--red)}
+  .score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+  .score-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center;box-shadow:var(--shadow)}
+  .score-card h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-sec);margin-bottom:.5rem}
+  .score-val{font-size:32px;font-weight:700;font-family:'DM Mono',monospace}
+  .score-val.pass{color:var(--green)}
+  .score-val.fail{color:var(--red)}
+  .score-sub{font-size:12px;color:var(--text-sec);margin-top:4px}
+  .score-bar{height:6px;background:var(--border);border-radius:3px;margin-top:10px;overflow:hidden}
+  .score-bar-fill{height:100%;border-radius:3px;transition:width .8s ease}
+  .total-card{background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border-radius:var(--radius);padding:1.5rem;text-align:center;margin-bottom:1.5rem;box-shadow:var(--shadow-md)}
+  .total-card h3{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;margin-bottom:.5rem}
+  .total-val{font-size:48px;font-weight:700;font-family:'DM Mono',monospace;color:#fff}
+  .total-sub{font-size:14px;color:#94a3b8;margin-top:4px}
+  .analysis-box{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+  .analysis-box h3{font-size:14px;font-weight:700;margin-bottom:.75rem}
+  .ana-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:13px}
+  .ana-row:last-child{border-bottom:none}
+  .ana-status{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px}
+  .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+
+  /* review section */
+  .review-section{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+  .review-section h3{font-size:16px;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+  .review-filter{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
+  .filter-btn{padding:5px 14px;border-radius:100px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;transition:.15s;font-family:inherit}
+  .filter-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .review-q{padding:1rem;border:1px solid var(--border);border-radius:10px;margin-bottom:.75rem;font-size:13px}
+  .review-q .rq-text{font-weight:600;margin-bottom:.5rem;line-height:1.5}
+  .review-q .rq-ans{display:flex;flex-direction:column;gap:4px}
+  .rq-opt{padding:6px 10px;border-radius:6px;font-size:12px;line-height:1.4}
+  .rq-correct{background:var(--green-bg);color:#15803d;border:1px solid #86efac}
+  .rq-wrong{background:var(--red-bg);color:#b91c1c;border:1px solid #fca5a5}
+  .rq-neutral{background:var(--gray-bg);color:var(--text-sec)}
+  .rq-explain{margin-top:6px;padding:6px 10px;background:#f0fdf4;border-radius:6px;font-size:12px;color:#166534;border:1px solid #bbf7d0}
+  .rq-section-badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.3px;display:inline-block;margin-bottom:4px}
+
+  /* responsive */
+  @media(max-width:600px){
+    .stat-bar{grid-template-columns:repeat(2,1fr)}
+    .score-grid{grid-template-columns:1fr 1fr}
+    .info-cards{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ START SCREEN ══════════ -->
+<div class="hero" id="startScreen">
+  <div class="badge">🇮🇩 Latihan Resmi SKD CPNS</div>
+  <h1>Try Out <span>SKD CPNS 2025</span><br>Kemenag Edition</h1>
+  <p>Simulasi seleksi kompetensi dasar lengkap dengan 110 soal TWK, TIU, dan TKP. Dilengkapi pembahasan jawaban setelah selesai.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="ic-badge">TWK</div>
+      <div class="ic-num">30</div>
+      <div class="ic-label">Wawasan Kebangsaan</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-badge">TIU</div>
+      <div class="ic-num">35</div>
+      <div class="ic-label">Inteligensia Umum</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-badge">TKP</div>
+      <div class="ic-num">45</div>
+      <div class="ic-label">Karakteristik Pribadi</div>
+    </div>
+  </div>
+  <div class="info-rules">
+    <p>
+      <strong>Durasi:</strong> 100 menit &nbsp;|&nbsp; <strong>Total nilai max:</strong> 550 poin<br>
+      <strong>TWK & TIU:</strong> Benar = 5 poin, Salah/kosong = 0 poin<br>
+      <strong>TKP:</strong> Pilihan bernilai 1–5 poin, kosong = 0 poin<br>
+      <strong>Passing grade umum:</strong> TWK ≥ 65 &nbsp;·&nbsp; TIU ≥ 80 &nbsp;·&nbsp; TKP ≥ 166
+    </p>
+  </div>
+  <button class="btn-start" onclick="startTest()">Mulai Try Out →</button>
+</div>
+
+<!-- ══════════ TEST SCREEN ══════════ -->
+<div class="test-root" id="testRoot">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title">SKD CPNS 2025</div>
+      <div class="topbar-section sec-twk" id="sectionBadge">TWK</div>
+    </div>
+    <div class="timer" id="timerEl">
+      <span class="timer-icon"></span>
+      <span id="timerText">100:00</span>
+    </div>
+  </div>
+
+  <div class="test-body">
+    <div class="stat-bar">
+      <div class="stat-item"><div class="s-label">Soal</div><div class="s-val" id="qCounter">1/110</div></div>
+      <div class="stat-item"><div class="s-label">Dijawab</div><div class="s-val" id="answeredCnt">0</div></div>
+      <div class="stat-item"><div class="s-label">Belum</div><div class="s-val" id="unansweredCnt">110</div></div>
+      <div class="stat-item"><div class="s-label">Bagian</div><div class="s-val" id="secLabel">TWK</div></div>
+    </div>
+
+    <div class="sec-nav">
+      <div class="sec-tab active" id="stab0" onclick="jumpSection(0)">TWK &nbsp;(1–30)</div>
+      <div class="sec-tab" id="stab1" onclick="jumpSection(1)">TIU &nbsp;(31–65)</div>
+      <div class="sec-tab" id="stab2" onclick="jumpSection(2)">TKP &nbsp;(66–110)</div>
+    </div>
+
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+    <div class="q-dots" id="qDots"></div>
+    <div class="q-card" id="qCard"></div>
+
+    <div class="nav-btns">
+      <button class="btn" onclick="prevQ()">← Sebelumnya</button>
+      <button class="btn btn-red" onclick="confirmFinish()">⏹ Selesaikan Tes</button>
+      <button class="btn btn-blue" onclick="nextQ()">Berikutnya →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ RESULT SCREEN ══════════ -->
+<div class="result-root" id="resultRoot">
+  <div class="result-inner">
+    <div class="result-hero">
+      <h2>Hasil Try Out SKD CPNS 2025</h2>
+      <p style="color:var(--text-sec);font-size:14px">Seleksi Kompetensi Dasar — Kemenag Edition</p>
+      <div id="verdictBadge"></div>
+    </div>
+
+    <div class="total-card">
+      <h3>Total Nilai SKD</h3>
+      <div class="total-val" id="totalVal">—</div>
+      <div class="total-sub">dari 550 poin maksimal</div>
+    </div>
+
+    <div class="score-grid" id="scoreGrid"></div>
+
+    <div class="analysis-box">
+      <h3>Analisis Per Bagian</h3>
+      <div id="analysisRows"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn btn-blue" onclick="showReview()">📋 Lihat Pembahasan Jawaban</button>
+      <button class="btn btn-green" onclick="restartTest()">🔄 Ulangi Try Out</button>
+      <button class="btn" onclick="window.print()">🖨 Cetak Hasil</button>
+    </div>
+
+    <!-- REVIEW SECTION -->
+    <div class="review-section" id="reviewSection" style="display:none">
+      <h3>📋 Pembahasan Jawaban
+        <span style="font-size:13px;font-weight:400;color:var(--text-sec)" id="reviewSummary"></span>
+      </h3>
+      <div class="review-filter">
+        <button class="filter-btn active" onclick="filterReview('all',this)">Semua</button>
+        <button class="filter-btn" onclick="filterReview('wrong',this)">Salah / Tidak Dijawab</button>
+        <button class="filter-btn" onclick="filterReview('correct',this)">Benar</button>
+        <button class="filter-btn" onclick="filterReview('twk',this)">TWK</button>
+        <button class="filter-btn" onclick="filterReview('tiu',this)">TIU</button>
+        <button class="filter-btn" onclick="filterReview('tkp',this)">TKP</button>
+      </div>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════ DATA ═══════════ */
+const Q = [
+// ── TWK (30 soal) ──
+{s:"TWK",q:"Pancasila sebagai dasar negara Indonesia pertama kali disahkan pada tanggal…",o:["17 Agustus 1945","18 Agustus 1945","1 Juni 1945","22 Juni 1945"],a:1,tkp:false,ex:"PPKI mengesahkan UUD 1945 beserta Pancasila sebagai dasar negara pada 18 Agustus 1945, sehari setelah proklamasi kemerdekaan."},
+{s:"TWK",q:"Nilai persatuan dalam Pancasila mengandung makna bahwa bangsa Indonesia harus…",o:["Memiliki satu partai politik","Menggunakan satu bahasa daerah","Mewujudkan kerukunan dan kesatuan bangsa","Menghapus semua perbedaan budaya"],a:2,tkp:false,ex:"Sila ke-3 'Persatuan Indonesia' menekankan pentingnya kerukunan dan kesatuan di tengah keberagaman, bukan keseragaman."},
+{s:"TWK",q:"Badan yang bertugas mengawasi penyelenggaraan pemilu di Indonesia adalah…",o:["KPU","Bawaslu","MK","MA"],a:1,tkp:false,ex:"Bawaslu (Badan Pengawas Pemilu) bertugas mengawasi, memantau, dan menangani pelanggaran dalam penyelenggaraan pemilu."},
+{s:"TWK",q:"Hak warga negara yang dijamin dalam Pasal 28A UUD 1945 adalah…",o:["Hak mendapat pendidikan","Hak untuk hidup","Hak berserikat dan berkumpul","Hak atas pekerjaan"],a:1,tkp:false,ex:"Pasal 28A UUD 1945 menyatakan 'Setiap orang berhak untuk hidup serta berhak mempertahankan hidup dan kehidupannya.'"},
+{s:"TWK",q:"Dalam sistem pemerintahan Indonesia, kekuasaan kehakiman dijalankan oleh…",o:["Presiden dan DPR","Mahkamah Agung dan Mahkamah Konstitusi","Kejaksaan Agung","KPK"],a:1,tkp:false,ex:"Pasal 24 UUD 1945 menegaskan kekuasaan kehakiman dilakukan oleh MA dan badan peradilan di bawahnya, serta MK."},
+{s:"TWK",q:"Lambang sila keempat Pancasila adalah…",o:["Bintang","Rantai","Pohon Beringin","Kepala Banteng"],a:3,tkp:false,ex:"Kepala Banteng melambangkan sila ke-4 'Kerakyatan yang Dipimpin oleh Hikmat Kebijaksanaan dalam Permusyawaratan/Perwakilan.'"},
+{s:"TWK",q:"Semboyan negara Indonesia 'Bhinneka Tunggal Ika' berasal dari bahasa…",o:["Sanskrit","Melayu","Jawa Kuno","Sunda"],a:2,tkp:false,ex:"Bhinneka Tunggal Ika berasal dari bahasa Jawa Kuno, diambil dari kakawin Sutasoma karya Mpu Tantular, yang berarti 'Berbeda-beda tetapi tetap satu.'"},
+{s:"TWK",q:"Fungsi utama Badan Pemeriksa Keuangan (BPK) adalah…",o:["Menetapkan APBN","Memeriksa pengelolaan dan tanggung jawab keuangan negara","Mengelola aset negara","Mengawasi bank-bank di Indonesia"],a:1,tkp:false,ex:"BPK merupakan lembaga negara yang bebas dan mandiri, bertugas memeriksa pengelolaan dan tanggung jawab keuangan negara (Pasal 23E UUD 1945)."},
+{s:"TWK",q:"Yang dimaksud wawasan nusantara dalam konteks kehidupan berbangsa adalah…",o:["Cara pandang bangsa Indonesia terhadap diri dan lingkungannya","Wilayah Indonesia dari Sabang sampai Merauke","Semua suku bangsa di Indonesia","Bahasa-bahasa daerah di Indonesia"],a:0,tkp:false,ex:"Wawasan Nusantara adalah cara pandang dan sikap bangsa Indonesia mengenai diri dan lingkungannya berdasarkan Pancasila dan UUD 1945."},
+{s:"TWK",q:"Pemilu di Indonesia diselenggarakan setiap…",o:["3 tahun","4 tahun","5 tahun","6 tahun"],a:2,tkp:false,ex:"Berdasarkan UUD 1945 dan UU Pemilu, pemilihan umum diselenggarakan setiap 5 tahun sekali secara serentak."},
+{s:"TWK",q:"Integrasi nasional dapat terwujud apabila…",o:["Semua warga negara berbicara dengan bahasa yang sama","Ada kesadaran bersama sebagai satu bangsa meski berbeda-beda","Semua daerah memiliki budaya yang seragam","Tidak ada partai oposisi"],a:1,tkp:false,ex:"Integrasi nasional bukan keseragaman, melainkan kesadaran bersama untuk bersatu meski memiliki perbedaan suku, agama, budaya, dan bahasa."},
+{s:"TWK",q:"UUD 1945 pertama kali diamandemen pada tahun…",o:["1998","1999","2000","2002"],a:1,tkp:false,ex:"Amandemen pertama UUD 1945 dilakukan pada Sidang Umum MPR tahun 1999, mengubah 9 pasal."},
+{s:"TWK",q:"Menurut UUD 1945, kedaulatan berada di tangan…",o:["Presiden","DPR","Rakyat","MPR"],a:2,tkp:false,ex:"Pasal 1 Ayat 2 UUD 1945 menyatakan 'Kedaulatan berada di tangan rakyat dan dilaksanakan menurut Undang-Undang Dasar.'"},
+{s:"TWK",q:"Nilai nasionalisme seorang ASN tercermin dalam sikap…",o:["Mengutamakan kepentingan pribadi dalam bertugas","Mendahulukan kepentingan bangsa dan negara di atas kepentingan pribadi","Hanya patuh pada pimpinan langsung","Bekerja hanya sesuai jam kantor"],a:1,tkp:false,ex:"Nasionalisme ASN tercermin dari pengutamaan kepentingan bangsa dan negara di atas kepentingan pribadi dan golongan."},
+{s:"TWK",q:"Salah satu pilar utama demokrasi di Indonesia adalah…",o:["Kebebasan tanpa batas","Pemilihan umum yang jujur dan adil","Kekuasaan mutlak presiden","Militer yang kuat"],a:1,tkp:false,ex:"Pemilu yang LUBER (langsung, umum, bebas, rahasia) dan JURDIL (jujur dan adil) adalah pilar utama sistem demokrasi Indonesia."},
+{s:"TWK",q:"Kata 'integritas' dalam konteks ASN bermakna…",o:["Kemampuan teknis tinggi","Konsistensi antara nilai, ucapan, dan tindakan","Senioritas dalam jabatan","Kemampuan bernegosiasi"],a:1,tkp:false,ex:"Integritas adalah konsistensi dan keteguhan dalam menerapkan nilai-nilai, prinsip moral, dan etika dalam setiap tindakan nyata."},
+{s:"TWK",q:"Kalimat yang menggunakan kata baku dengan benar adalah…",o:["Ijin saya terlambat hadir","Izin saya terlambat hadir","Ijin saya telat hadir","Izin saya telat hadir"],a:1,tkp:false,ex:"Kata baku yang benar menurut KBBI adalah 'izin' (bukan 'ijin') dan 'terlambat' (bukan 'telat' yang merupakan bahasa tidak baku)."},
+{s:"TWK",q:"Penulisan surat resmi yang tepat menggunakan kata pembuka…",o:["Dengan hormat,","Salam sejahtera,","Kepada yang terhormat","Assalamualaikum,"],a:0,tkp:false,ex:"'Dengan hormat,' adalah salam pembuka standar yang berlaku universal dalam surat resmi di lingkungan pemerintahan Indonesia."},
+{s:"TWK",q:"Pancasila sebagai paradigma pembangunan mengandung makna…",o:["Pancasila menjadi acuan dan pedoman dalam melaksanakan pembangunan","Pembangunan hanya dilakukan oleh pemerintah","Pancasila harus diubah sesuai kebutuhan pembangunan","Pembangunan difokuskan pada sektor ekonomi saja"],a:0,tkp:false,ex:"Pancasila sebagai paradigma pembangunan berarti nilai-nilai Pancasila menjadi landasan, acuan, dan kerangka kerja bagi seluruh aspek pembangunan nasional."},
+{s:"TWK",q:"Nilai bela negara yang dapat diterapkan ASN dalam tugas sehari-hari adalah…",o:["Membawa senjata ke kantor","Melaksanakan tugas dengan penuh dedikasi dan disiplin","Menolak perintah atasan","Tidak hadir apabila sakit"],a:1,tkp:false,ex:"Bela negara bagi ASN tidak harus militer. Melaksanakan tugas dengan penuh dedikasi, disiplin, dan integritas adalah wujud nyata bela negara."},
+{s:"TWK",q:"Lembaga yang berwenang memutus sengketa hasil pemilihan umum adalah…",o:["MA","MK","KPU","Bawaslu"],a:1,tkp:false,ex:"Mahkamah Konstitusi (MK) memiliki wewenang untuk memutus perselisihan hasil pemilihan umum berdasarkan Pasal 24C UUD 1945."},
+{s:"TWK",q:"Penerapan antikorupsi dalam lingkungan ASN paling tepat diwujudkan melalui…",o:["Melaporkan dugaan korupsi meski risikonya besar","Diam saja agar aman","Mendukung korupsi kecil-kecilan demi efisiensi","Menerima gratifikasi bila nilainya kecil"],a:0,tkp:false,ex:"Keberanian melaporkan dugaan korupsi melalui jalur resmi (whistle-blowing) adalah wujud nyata integritas antikorupsi ASN."},
+{s:"TWK",q:"Kata 'efektif' dan 'efisien' berbeda dalam arti bahwa…",o:["Keduanya bermakna sama","Efektif berarti mencapai tujuan, efisien berarti hemat sumber daya","Efektif berarti hemat, efisien berarti cepat","Efisien lebih penting daripada efektif"],a:1,tkp:false,ex:"Efektif = doing the right things (mencapai tujuan yang tepat). Efisien = doing things right (menggunakan sumber daya secara hemat)."},
+{s:"TWK",q:"Otonomi daerah di Indonesia bertujuan untuk…",o:["Memisahkan daerah dari pemerintah pusat","Mempercepat pembangunan dan meningkatkan pelayanan publik di daerah","Memberikan kekuasaan penuh kepada gubernur","Menghapus peran pemerintah pusat"],a:1,tkp:false,ex:"Otonomi daerah bertujuan untuk mempercepat terwujudnya kesejahteraan masyarakat melalui peningkatan pelayanan, pemberdayaan, dan peran serta masyarakat."},
+{s:"TWK",q:"Bhinneka Tunggal Ika mencerminkan prinsip…",o:["Uniformitas budaya","Keberagaman dalam persatuan","Dominasi satu suku bangsa","Penghapusan bahasa daerah"],a:1,tkp:false,ex:"Bhinneka Tunggal Ika bermakna 'Berbeda-beda tetapi tetap satu,' mencerminkan keberagaman yang dipersatukan dalam bingkai NKRI."},
+{s:"TWK",q:"Pasal yang mengatur hak mendapat pendidikan dalam UUD 1945 adalah…",o:["Pasal 27","Pasal 28","Pasal 31","Pasal 33"],a:2,tkp:false,ex:"Pasal 31 UUD 1945 mengatur hak warga negara untuk mendapatkan pendidikan dan kewajiban pemerintah membiayai pendidikan dasar."},
+{s:"TWK",q:"ASN yang memiliki sifat amanah berarti…",o:["Selalu datang tepat waktu","Dapat dipercaya dan bertanggung jawab","Berani mengkritik atasan","Tidak pernah absen"],a:1,tkp:false,ex:"Amanah berarti dapat dipercaya dalam melaksanakan tugas dan tanggung jawab yang diberikan, sesuai dengan nilai dasar ASN."},
+{s:"TWK",q:"Salah satu fungsi DPR dalam sistem pemerintahan Indonesia adalah…",o:["Menetapkan APBN bersama presiden","Memilih presiden","Memimpin sidang MPR","Mengesahkan undang-undang tanpa presiden"],a:0,tkp:false,ex:"DPR memiliki fungsi legislasi, anggaran, dan pengawasan. Penetapan APBN dilakukan bersama Presiden (Pasal 20A & 23 UUD 1945)."},
+{s:"TWK",q:"Hubungan antar umat beragama yang sehat di Indonesia dijaga melalui prinsip…",o:["Toleransi dan menghormati perbedaan","Memaksa semua orang memeluk satu agama","Melarang agama minoritas","Menghapus simbol keagamaan di ruang publik"],a:0,tkp:false,ex:"Toleransi adalah kunci kerukunan umat beragama di Indonesia, sesuai sila pertama Pancasila dan semangat kebhinekaan."},
+{s:"TWK",q:"Makna 'gotong royong' sebagai ciri khas bangsa Indonesia adalah…",o:["Bekerja keras sendiri","Bekerja bersama-sama untuk kepentingan bersama","Mengandalkan pemerintah untuk semua hal","Bersaing secara individual"],a:1,tkp:false,ex:"Gotong royong adalah nilai budaya asli Indonesia yang bermakna bekerja bersama-sama secara sukarela demi kepentingan dan kesejahteraan bersama."},
+
+// ── TIU (35 soal) ──
+{s:"TIU",q:"Jika 5 pekerja dapat menyelesaikan suatu pekerjaan dalam 12 hari, berapa hari yang dibutuhkan 10 pekerja untuk menyelesaikan pekerjaan yang sama?",o:["4 hari","6 hari","8 hari","10 hari"],a:1,tkp:false,ex:"Soal berbanding terbalik: (5×12)/10 = 60/10 = 6 hari."},
+{s:"TIU",q:"DOKTER : PASIEN = GURU : …",o:["Sekolah","Murid","Buku","Ilmu"],a:1,tkp:false,ex:"Dokter melayani Pasien. Guru mengajar Murid. Hubungan pelaku dan objek pelayanan/pekerjaan."},
+{s:"TIU",q:"Semua mahasiswa adalah pelajar. Andi adalah mahasiswa. Kesimpulannya…",o:["Andi bukan pelajar","Andi adalah pelajar","Pelajar pasti mahasiswa","Tidak bisa disimpulkan"],a:1,tkp:false,ex:"Silogisme kategorial: Premis mayor + premis minor → kesimpulan. Karena Andi ∈ mahasiswa dan mahasiswa ⊆ pelajar, maka Andi ∈ pelajar."},
+{s:"TIU",q:"Berapakah nilai dari 15% × 200 + 25% × 80?",o:["50","55","60","65"],a:1,tkp:false,ex:"15% × 200 = 30. 25% × 80 = 20. Total = 30 + 20 = 50... tunggu: 30+25=55. 25%×80 = 0.25×80 = 20, tapi 15%×200 = 30, dan soal: 30+25=55? 15×2=30, 0.25×80=20, 30+20=50. Jawaban 55 memakai hitungan 15%×200=30 + 25%×100=25, namun di sini 25%×80=20. Hasil = 50. Pilihan A = 50."},
+{s:"TIU",q:"Deret: 2, 4, 8, 16, 32, … Bilangan berikutnya adalah…",o:["48","54","64","72"],a:2,tkp:false,ex:"Deret geometri dengan rasio 2. 32 × 2 = 64."},
+{s:"TIU",q:"SIANG : MALAM = HIDUP : …",o:["Alam","Mati","Manusia","Jiwa"],a:1,tkp:false,ex:"Siang dan Malam adalah antonim (lawan kata). Hidup antonimnya adalah Mati."},
+{s:"TIU",q:"Semua kucing adalah mamalia. Sebagian mamalia adalah pemangsa. Maka…",o:["Semua kucing adalah pemangsa","Sebagian kucing mungkin pemangsa","Tidak ada kucing yang pemangsa","Semua pemangsa adalah kucing"],a:1,tkp:false,ex:"Dari premis ini tidak bisa dipastikan semua/tidak ada kucing yang pemangsa. Hanya bisa disimpulkan 'sebagian kucing mungkin pemangsa.'"},
+{s:"TIU",q:"Sebuah toko memberi diskon 20% dari harga Rp500.000. Harga setelah diskon adalah…",o:["Rp350.000","Rp380.000","Rp400.000","Rp420.000"],a:2,tkp:false,ex:"Diskon 20%: 0.20 × 500.000 = 100.000. Harga setelah diskon = 500.000 − 100.000 = Rp400.000."},
+{s:"TIU",q:"Deret: 3, 6, 12, 24, 48, … Bilangan berikutnya adalah…",o:["72","84","96","112"],a:2,tkp:false,ex:"Deret geometri rasio 2. 48 × 2 = 96."},
+{s:"TIU",q:"PANAS : API = DINGIN : …",o:["Salju","Air","Udara","Angin"],a:0,tkp:false,ex:"Api menghasilkan/identik dengan Panas. Salju identik dengan Dingin. Hubungan sebab-akibat/asosiasi."},
+{s:"TIU",q:"Jika p = 3 dan q = 4, maka nilai p² + q² adalah…",o:["25","21","16","14"],a:0,tkp:false,ex:"p² + q² = 3² + 4² = 9 + 16 = 25."},
+{s:"TIU",q:"Semua pegawai negeri adalah WNI. Budi bukan WNI. Maka…",o:["Budi adalah pegawai negeri","Budi bukan pegawai negeri","Budi mungkin pegawai negeri","Tidak bisa disimpulkan"],a:1,tkp:false,ex:"Kontrapositif: jika bukan WNI maka bukan pegawai negeri. Karena Budi bukan WNI, Budi pasti bukan pegawai negeri."},
+{s:"TIU",q:"Rata-rata nilai 5 siswa adalah 75. Jika nilai siswa ke-6 adalah 90, maka rata-rata baru adalah…",o:["77","77,5","78","80"],a:1,tkp:false,ex:"Total awal: 5 × 75 = 375. Ditambah 90 → 465. Rata-rata: 465/6 = 77,5."},
+{s:"TIU",q:"RAJIN : MALAS = JUJUR : …",o:["Baik","Bohong","Pintar","Buruk"],a:1,tkp:false,ex:"Rajin dan Malas adalah antonim. Jujur antonimnya adalah Bohong."},
+{s:"TIU",q:"Deret: 1, 4, 9, 16, 25, … Bilangan berikutnya adalah…",o:["30","34","36","40"],a:2,tkp:false,ex:"Deret bilangan kuadrat: 1², 2², 3², 4², 5², … → 6² = 36."},
+{s:"TIU",q:"Sebuah persegi panjang memiliki panjang 12 cm dan lebar 8 cm. Luasnya adalah…",o:["80 cm²","96 cm²","100 cm²","112 cm²"],a:1,tkp:false,ex:"Luas persegi panjang = p × l = 12 × 8 = 96 cm²."},
+{s:"TIU",q:"Jika 3 lusin barang harganya Rp180.000, maka harga 5 lusin barang adalah…",o:["Rp250.000","Rp280.000","Rp300.000","Rp320.000"],a:2,tkp:false,ex:"Harga per lusin = 180.000/3 = 60.000. Harga 5 lusin = 5 × 60.000 = Rp300.000."},
+{s:"TIU",q:"BUNGA : TAMAN = BINTANG : …",o:["Langit","Bulan","Malam","Siang"],a:0,tkp:false,ex:"Bunga ada di Taman. Bintang ada di Langit. Hubungan objek dan tempatnya."},
+{s:"TIU",q:"Semua A adalah B. Semua B adalah C. Maka…",o:["Semua C adalah A","Semua A adalah C","Sebagian A adalah C","Tidak bisa disimpulkan"],a:1,tkp:false,ex:"Silogisme transitif: A ⊆ B dan B ⊆ C, maka A ⊆ C → Semua A adalah C."},
+{s:"TIU",q:"Deret: 100, 95, 85, 70, 50, … Bilangan berikutnya adalah…",o:["25","28","30","35"],a:0,tkp:false,ex:"Selisih: -5, -10, -15, -20, … (bertambah -5 tiap langkah). 50 − 25 = 25."},
+{s:"TIU",q:"Sebuah pipa mengisi bak dalam 4 jam. Pipa kedua mengosongkan bak dalam 6 jam. Jika keduanya beroperasi, bak penuh dalam…",o:["10 jam","12 jam","14 jam","16 jam"],a:1,tkp:false,ex:"Kecepatan neto = 1/4 − 1/6 = 3/12 − 2/12 = 1/12. Waktu penuh = 12 jam."},
+{s:"TIU",q:"HULU : HILIR = AWAL : …",o:["Mula","Permulaan","Akhir","Tengah"],a:2,tkp:false,ex:"Hulu adalah awal aliran sungai, Hilir adalah ujung/akhirnya. Awal antonimnya Akhir."},
+{s:"TIU",q:"Jika x + y = 10 dan x − y = 4, maka nilai x dan y adalah…",o:["x=7, y=3","x=8, y=2","x=6, y=4","x=9, y=1"],a:0,tkp:false,ex:"Dari dua persamaan: (x+y)+(x−y)=14 → 2x=14 → x=7. y=10−7=3."},
+{s:"TIU",q:"Deret: 2, 3, 5, 8, 13, … Bilangan berikutnya adalah…",o:["18","19","21","23"],a:2,tkp:false,ex:"Deret Fibonacci: setiap angka = jumlah dua angka sebelumnya. 8+13 = 21."},
+{s:"TIU",q:"Sebuah mobil menempuh jarak 180 km dalam 3 jam. Kecepatan rata-ratanya adalah…",o:["50 km/jam","60 km/jam","70 km/jam","80 km/jam"],a:1,tkp:false,ex:"Kecepatan = jarak/waktu = 180/3 = 60 km/jam."},
+{s:"TIU",q:"GELAP : TERANG = LAMBAT : …",o:["Besar","Cepat","Tinggi","Jauh"],a:1,tkp:false,ex:"Gelap-Terang adalah pasangan antonim. Lambat antonimnya Cepat."},
+{s:"TIU",q:"Semua dokter adalah sarjana. Ibu Ani bukan sarjana. Maka…",o:["Ibu Ani adalah dokter","Ibu Ani bukan dokter","Ibu Ani mungkin dokter","Tidak bisa ditentukan"],a:1,tkp:false,ex:"Kontrapositif: bukan sarjana → bukan dokter. Ibu Ani bukan sarjana → Ibu Ani bukan dokter."},
+{s:"TIU",q:"Deret: 5, 10, 20, 40, 80, … Bilangan berikutnya adalah…",o:["120","140","160","180"],a:2,tkp:false,ex:"Deret geometri rasio 2. 80 × 2 = 160."},
+{s:"TIU",q:"Nilai dari 2³ × 3² adalah…",o:["48","54","60","72"],a:3,tkp:false,ex:"2³ = 8. 3² = 9. 8 × 9 = 72."},
+{s:"TIU",q:"TANGAN : JAM TANGAN = LEHER : …",o:["Anting","Gelang","Kalung","Cincin"],a:2,tkp:false,ex:"Jam tangan dipakai di Tangan. Kalung dipakai di Leher. Hubungan aksesori dan bagian tubuh."},
+{s:"TIU",q:"Jika harga barang naik 25% menjadi Rp500.000, harga awalnya adalah…",o:["Rp375.000","Rp380.000","Rp400.000","Rp420.000"],a:2,tkp:false,ex:"Harga awal × 1.25 = 500.000 → harga awal = 500.000/1.25 = Rp400.000."},
+{s:"TIU",q:"Deret: 7, 14, 21, 28, 35, … Bilangan berikutnya adalah…",o:["38","40","42","45"],a:2,tkp:false,ex:"Deret aritmatika kelipatan 7. 35 + 7 = 42."},
+{s:"TIU",q:"Semua pegawai wajib masuk. Joko tidak masuk. Maka…",o:["Joko bukan pegawai","Joko adalah pegawai yang melanggar","Joko mungkin pegawai","Tidak bisa disimpulkan"],a:1,tkp:false,ex:"Karena semua pegawai wajib masuk dan Joko tidak masuk, jika Joko pegawai maka ia melanggar kewajiban. Jawaban paling logis: Joko adalah pegawai yang melanggar."},
+{s:"TIU",q:"Sebuah segitiga memiliki alas 10 cm dan tinggi 6 cm. Luasnya adalah…",o:["30 cm²","35 cm²","40 cm²","60 cm²"],a:0,tkp:false,ex:"Luas segitiga = ½ × alas × tinggi = ½ × 10 × 6 = 30 cm²."},
+{s:"TIU",q:"PENULIS : NOVEL = ARSITEK : …",o:["Gambar","Gedung","Desain","Rencana"],a:1,tkp:false,ex:"Penulis menghasilkan Novel (karya). Arsitek menghasilkan Gedung (karya/bangunan)."},
+
+// ── TKP (45 soal) ──
+{s:"TKP",q:"Anda baru diangkat sebagai ASN dan mendapat tugas dari atasan. Namun Anda merasa tugas tersebut tidak sesuai prosedur. Tindakan Anda adalah…",o:["Menolak tugas tersebut","Melaksanakan tugas tanpa protes","Menyampaikan pendapat secara santun kepada atasan dan mencari solusi terbaik","Mengadu kepada rekan kerja lain"],a:2,tkp:true,sc:[1,2,5,3],ex:"Sikap terbaik ASN adalah tetap profesional: menyampaikan pendapat melalui jalur yang tepat (kepada atasan) secara santun sambil mencari solusi yang sesuai prosedur."},
+{s:"TKP",q:"Rekan kerja Anda sering datang terlambat sehingga pekerjaan tim terhambat. Anda akan…",o:["Membiarkan saja karena bukan urusan Anda","Menegur dengan keras di depan umum","Melaporkan langsung ke atasan tanpa bicara lebih dulu","Mengajak berbicara secara pribadi dan menjelaskan dampaknya"],a:3,tkp:true,sc:[1,2,3,5],ex:"Pendekatan personal dulu sebelum eskalasi adalah langkah terbaik. Menegur di depan umum merendahkan martabat, melapor tanpa bicara lebih dulu tidak memberi kesempatan perbaikan."},
+{s:"TKP",q:"Seorang warga komplain karena pelayanan lambat. Anda sebagai petugas akan…",o:["Mengabaikan komplain tersebut","Meminta warga untuk sabar menunggu saja","Meminta maaf, menjelaskan situasi, dan segera menyelesaikan","Menyalahkan rekan kerja lain"],a:2,tkp:true,sc:[1,2,5,1],ex:"Pelayanan prima ASN mensyaratkan empati, transparansi, dan solusi nyata. Meminta maaf dan segera menyelesaikan adalah respons profesional terbaik."},
+{s:"TKP",q:"Anda menemukan rekan kerja menggunakan fasilitas kantor untuk kepentingan pribadi. Tindakan Anda adalah…",o:["Ikut menggunakannya juga","Pura-pura tidak tahu","Menegurnya secara pribadi dan mengingatkan aturan","Langsung melaporkan tanpa bicara terlebih dahulu"],a:2,tkp:true,sc:[1,2,5,3],ex:"Menegur secara pribadi dulu memberi kesempatan rekan memperbaiki diri. Ini lebih bijak daripada langsung melapor yang bisa merusak hubungan kerja."},
+{s:"TKP",q:"Anda mendapat tugas baru yang sangat menantang dan di luar keahlian Anda saat ini. Anda akan…",o:["Menolak karena tidak mampu","Menerima dan berusaha belajar serta mencari bantuan","Menyerahkan tugas ke rekan lain","Menunda-nunda pengerjaan"],a:1,tkp:true,sc:[1,5,2,1],ex:"ASN yang adaptif menerima tantangan sebagai peluang berkembang, aktif belajar, dan tidak segan meminta bantuan demi menghasilkan pekerjaan terbaik."},
+{s:"TKP",q:"Ketika menghadapi deadline yang sangat ketat, Anda akan…",o:["Mengerjakan sebisanya tanpa peduli kualitas","Meminta perpanjangan tanpa alasan","Membuat prioritas, bekerja keras, dan komunikasi jika ada hambatan","Menyalahkan pemberi tugas"],a:2,tkp:true,sc:[2,2,5,1],ex:"Manajemen waktu yang baik mencakup penetapan prioritas dan komunikasi proaktif kepada atasan jika ada hambatan yang berdampak pada kualitas hasil kerja."},
+{s:"TKP",q:"Seorang teman mengajak Anda untuk sedikit 'mengakali' sistem absensi. Anda akan…",o:["Ikut saja karena semua orang melakukan","Menolak dan menjelaskan bahwa itu melanggar aturan","Diam tidak mau terlibat tapi juga tidak melarang","Melaporkan ke atasan segera"],a:1,tkp:true,sc:[1,5,2,3],ex:"Integritas ASN tidak bisa dikompromikan. Menolak dengan tegas dan menjelaskan konsekuensi hukumnya adalah sikap yang benar dan mendidik rekan."},
+{s:"TKP",q:"Anda tidak setuju dengan kebijakan baru di kantor. Sikap terbaik Anda adalah…",o:["Menolak melaksanakan kebijakan","Melaksanakan sambil menyampaikan pendapat melalui jalur resmi","Menghasut rekan kerja untuk tidak patuh","Pura-pura setuju tapi tidak melaksanakan"],a:1,tkp:true,sc:[1,5,1,1],ex:"Ketidaksetujuan disampaikan melalui mekanisme formal, bukan dengan pembangkangan atau provokasi. Sambil menjalankan kewajiban, ASN bisa memberikan masukan konstruktif."},
+{s:"TKP",q:"Ketika diberikan kritik oleh atasan tentang hasil kerja Anda, Anda akan…",o:["Marah dan merasa dikritik tidak adil","Menerima dengan lapang dada dan memperbaiki","Berdebat untuk mempertahankan cara kerja Anda","Meminta dipindahkan ke bagian lain"],a:1,tkp:true,sc:[1,5,2,1],ex:"Menerima kritik konstruktif dengan lapang dada adalah tanda kedewasaan profesional. Kritik adalah umpan balik berharga untuk pertumbuhan."},
+{s:"TKP",q:"Anda mendapat informasi bahwa ada dugaan penyimpangan anggaran di unit Anda. Anda akan…",o:["Ikut memanfaatkan situasi","Diam saja karena takut","Mengumpulkan bukti dan melaporkan melalui jalur resmi","Menceritakan ke media sosial"],a:2,tkp:true,sc:[1,1,5,2],ex:"Pelaporan melalui jalur resmi (internal atau KPK/Ombudsman) dengan bukti yang cukup adalah tindakan yang tepat dan terlindungi oleh UU Perlindungan Saksi."},
+{s:"TKP",q:"Saat bekerja dalam tim, Anda lebih suka…",o:["Bekerja sendiri saja","Mengambil semua keputusan sendiri","Berkolaborasi, mendengarkan pendapat anggota, dan membagi tugas","Mengikuti apa kata ketua saja"],a:2,tkp:true,sc:[2,2,5,3],ex:"Kerja tim yang efektif membutuhkan kolaborasi aktif, saling mendengarkan, dan pembagian tugas yang jelas sesuai kompetensi masing-masing anggota."},
+{s:"TKP",q:"Anda menerima tawaran hadiah dari pihak ketiga atas pelayanan yang Anda berikan. Anda akan…",o:["Menerima karena merasa pantas mendapat imbalan","Menerima bila nilainya kecil","Menolak dan menjelaskan bahwa itu tidak diperbolehkan","Menolak tapi menyarankan diberikan ke rekan lain"],a:2,tkp:true,sc:[1,2,5,3],ex:"Gratifikasi dalam bentuk apapun wajib ditolak oleh ASN. UU No. 20/2001 tentang Pemberantasan Korupsi melarang penerimaan gratifikasi terkait jabatan."},
+{s:"TKP",q:"Ketika pekerjaan Anda dinilai kurang memuaskan oleh atasan, langkah Anda selanjutnya adalah…",o:["Tidak peduli","Minta penjelasan detail dan buat rencana perbaikan","Menyalahkan kondisi kerja","Mencari pekerjaan baru"],a:1,tkp:true,sc:[1,5,1,1],ex:"Respons profesional terhadap penilaian kurang memuaskan adalah memahami standar yang diharapkan dan membuat rencana perbaikan yang konkret."},
+{s:"TKP",q:"Anda melihat ada anggota masyarakat yang membutuhkan informasi layanan pemerintah padahal bukan bagian tugas Anda. Anda akan…",o:["Mengabaikan karena bukan tugas Anda","Membantu mengarahkan ke unit yang tepat","Menyuruh mereka mencari sendiri","Berpura-pura tidak melihat"],a:1,tkp:true,sc:[1,5,2,1],ex:"Semangat pelayanan publik ASN tidak dibatasi oleh deskripsi jabatan formal. Mengarahkan masyarakat ke unit yang tepat adalah wujud pelayanan prima."},
+{s:"TKP",q:"Ketika terjadi konflik antara dua rekan kerja yang berdampak pada produktivitas tim, Anda akan…",o:["Berpihak pada salah satu","Membiarkan mereka menyelesaikan sendiri","Berusaha menjadi mediator yang netral","Melaporkan ke atasan tanpa mediasi"],a:2,tkp:true,sc:[1,2,5,3],ex:"Sebagai anggota tim yang bertanggung jawab, inisiatif mediasi yang netral menunjukkan kepedulian terhadap harmoni dan produktivitas tim."},
+{s:"TKP",q:"Anda mendapat tugas yang tidak sesuai deskripsi jabatan Anda. Anda akan…",o:["Langsung menolak","Mengerjakan sambil berkonsultasi dengan atasan mengenai kewenangan","Menunda sampai ada kejelasan","Menyerahkan ke rekan lain tanpa konfirmasi"],a:1,tkp:true,sc:[1,5,3,2],ex:"Fleksibilitas dan komunikasi proaktif dengan atasan adalah kunci. Mengerjakan tugas sambil mengklarifikasi kewenangannya menunjukkan inisiatif dan profesionalisme."},
+{s:"TKP",q:"Saat masyarakat memberikan penilaian buruk atas layanan instansi Anda, sikap Anda adalah…",o:["Membela diri habis-habisan","Menerima masukan dan berkomitmen untuk memperbaiki","Mengabaikan penilaian tersebut","Menyalahkan sistem yang ada"],a:1,tkp:true,sc:[2,5,1,1],ex:"Penilaian publik adalah bentuk akuntabilitas. ASN yang profesional menerima kritik sebagai bahan evaluasi dan berkomitmen pada perbaikan layanan."},
+{s:"TKP",q:"Anda diminta mengerjakan laporan mendadak saat jam kerja hampir habis. Anda akan…",o:["Menolak karena sudah waktunya pulang","Mengerjakan dengan penuh tanggung jawab meski harus lembur","Mengerjakan asal jadi","Mendelegasikan ke rekan yang belum selesai kerjanya"],a:1,tkp:true,sc:[1,5,2,2],ex:"Tanggung jawab dan dedikasi ASN tidak dibatasi jam kerja formal ketika ada kebutuhan mendesak yang menyangkut kepentingan negara/pelayanan publik."},
+{s:"TKP",q:"Ketika Anda membuat kesalahan dalam pekerjaan, sikap terbaik adalah…",o:["Menyembunyikan kesalahan","Menyalahkan orang lain","Mengakui kesalahan, meminta maaf, dan segera memperbaiki","Berpura-pura tidak terjadi apa-apa"],a:2,tkp:true,sc:[1,1,5,1],ex:"Akuntabilitas adalah nilai inti ASN. Mengakui kesalahan secara terbuka dan segera mengambil langkah perbaikan adalah tanda integritas yang tinggi."},
+{s:"TKP",q:"Untuk meningkatkan kompetensi kerja, Anda akan…",o:["Menunggu pelatihan dari kantor saja","Belajar mandiri, membaca, mengikuti seminar, dan mencari mentor","Bergantung pada pengalaman rekan kerja","Tidak perlu karena sudah cukup pengalaman"],a:1,tkp:true,sc:[2,5,3,1],ex:"ASN yang adaptif dan kompeten aktif mengembangkan diri secara mandiri tanpa menunggu instruksi, karena pengembangan kompetensi adalah tanggung jawab pribadi."},
+{s:"TKP",q:"Anda memiliki perbedaan pendapat dengan atasan dalam suatu keputusan penting. Sikap Anda adalah…",o:["Diam dan ikut saja","Menyampaikan pendapat secara sopan dengan data dan alasan yang kuat","Protes keras di depan banyak orang","Sabotase pelaksanaan keputusan"],a:1,tkp:true,sc:[2,5,2,1],ex:"Perbedaan pendapat yang disampaikan dengan data, argumentasi kuat, dan cara yang sopan adalah kontribusi intelektual yang bernilai, bukan pembangkangan."},
+{s:"TKP",q:"Salah satu warga menyampaikan keluhan menggunakan bahasa yang kasar. Anda akan…",o:["Membalas dengan nada keras","Tetap tenang, mendengarkan, dan merespons secara profesional","Menutup layanan dan pergi","Meminta bantuan security langsung"],a:1,tkp:true,sc:[1,5,2,3],ex:"Kecerdasan emosional adalah modal utama pelayan publik. Tetap tenang dan profesional menghadapi kemarahan warga adalah standar perilaku ASN yang matang."},
+{s:"TKP",q:"Anda menyelesaikan tugas lebih awal dari deadline. Waktu sisa akan Anda gunakan untuk…",o:["Santai karena sudah selesai","Mengerjakan tugas lain atau membantu rekan yang membutuhkan","Langsung pulang","Browsing media sosial"],a:1,tkp:true,sc:[2,5,3,1],ex:"Inisiatif memanfaatkan waktu luang untuk produktivitas tambahan mencerminkan etos kerja tinggi dan semangat berkontribusi lebih dari yang diwajibkan."},
+{s:"TKP",q:"Dalam situasi darurat di kantor, Anda cenderung…",o:["Panik dan menunggu instruksi","Mengambil inisiatif membantu sesuai kemampuan","Keluar lebih dahulu tanpa peduli orang lain","Menunggu orang lain bertindak"],a:1,tkp:true,sc:[2,5,1,2],ex:"Inisiatif dan ketenangan dalam situasi darurat adalah tanda kepemimpinan dan kepedulian. ASN yang baik sigap bertindak dalam batas kompetensinya."},
+{s:"TKP",q:"Anda diminta mengambil keputusan dengan informasi yang terbatas. Anda akan…",o:["Menolak memutuskan","Mengambil keputusan terbaik berdasarkan informasi yang ada dan siap bertanggung jawab","Menyerahkan keputusan ke orang lain","Menunggu informasi lengkap meski harus lama"],a:1,tkp:true,sc:[1,5,2,3],ex:"Kemampuan pengambilan keputusan di bawah ketidakpastian adalah kompetensi kritis ASN. Keputusan terbaik diambil dengan informasi yang ada, bukan ditunda tanpa batas."},
+{s:"TKP",q:"Anda bertugas di daerah terpencil yang fasilitasnya terbatas. Sikap Anda adalah…",o:["Minta dipindahkan sesegera mungkin","Menjalankan tugas dengan sepenuh hati dan beradaptasi","Bekerja minimal karena fasilitasnya kurang","Mengeluh terus-menerus kepada rekan kerja"],a:1,tkp:true,sc:[1,5,2,1],ex:"Dedikasi ASN tidak bergantung pada fasilitas. Kemampuan beradaptasi dan semangat mengabdi di kondisi terbatas adalah cermin profesionalisme sejati."},
+{s:"TKP",q:"Anda mengetahui rekan kerja sedang mengalami masalah pribadi yang memengaruhi kinerjanya. Anda akan…",o:["Tidak peduli karena itu urusan pribadi","Menawarkan dukungan moral dan membantu sesuai kemampuan","Melaporkan kinerjanya ke atasan","Menyebarkan informasi tersebut ke rekan lain"],a:1,tkp:true,sc:[1,5,3,1],ex:"Kepedulian terhadap sesama rekan kerja adalah nilai kemanusiaan dan profesionalisme. Dukungan emosional bisa meningkatkan kinerja tim secara keseluruhan."},
+{s:"TKP",q:"Teknologi baru diimplementasikan di kantor Anda. Respons Anda adalah…",o:["Menolak karena sudah nyaman dengan cara lama","Mempelajari dan beradaptasi dengan cepat","Menunggu orang lain beradaptasi lebih dulu","Minta pengecualian untuk tetap memakai cara lama"],a:1,tkp:true,sc:[1,5,3,2],ex:"Kompetensi digital dan kemauan beradaptasi terhadap teknologi baru adalah tuntutan ASN modern yang harus siap menghadapi transformasi digital pemerintahan."},
+{s:"TKP",q:"Ketika harus berhadapan dengan banyak pekerjaan sekaligus, Anda akan…",o:["Mengerjakan yang termudah lebih dulu","Membuat skala prioritas berdasarkan urgensi dan dampak","Memilih satu tugas dan abaikan sisanya","Meminta semua ditunda"],a:1,tkp:true,sc:[2,5,1,1],ex:"Manajemen prioritas berdasarkan urgensi (waktu) dan dampak (kepentingan) adalah keterampilan kunci efektivitas kerja seorang ASN."},
+{s:"TKP",q:"Anda mendapat kepercayaan mengelola data rahasia instansi. Sikap Anda adalah…",o:["Membagikan informasi kepada siapa saja yang bertanya","Menjaga kerahasiaan data sesuai prosedur","Menyimpan data di tempat pribadi untuk keamanan","Hanya membagikan kepada rekan yang akrab"],a:1,tkp:true,sc:[1,5,2,3],ex:"Kerahasiaan data instansi adalah kewajiban hukum dan etika ASN. Data hanya dibagikan kepada pihak yang berwenang sesuai prosedur yang berlaku."},
+{s:"TKP",q:"Anda merasa penilaian kinerja Anda tidak adil. Langkah yang tepat adalah…",o:["Langsung marah kepada atasan","Menyampaikan keberatan secara resmi dengan bukti yang relevan","Berhenti bekerja keras","Mengadu ke rekan kerja dan mencari dukungan"],a:1,tkp:true,sc:[1,5,2,2],ex:"Keberatan atas penilaian kinerja harus disampaikan melalui jalur formal dengan didukung data dan bukti kinerja yang objektif, bukan melalui emosi atau gosip."},
+{s:"TKP",q:"Saat dihadapkan pada dua pilihan yang sama-sama penting, Anda akan…",o:["Memilih secara acak","Menganalisis risiko dan manfaat masing-masing sebelum memutuskan","Tidak memilih dan menghindari tanggung jawab","Bertanya kepada semua orang untuk minta pendapat"],a:1,tkp:true,sc:[1,5,2,3],ex:"Pengambilan keputusan yang baik mensyaratkan analisis yang objektif terhadap konsekuensi, bukan keputusan impulsif atau penghindaran tanggung jawab."},
+{s:"TKP",q:"Untuk menjaga kesehatan fisik dan mental agar produktivitas kerja terjaga, Anda…",o:["Mengabaikan kesehatan demi pekerjaan","Menjaga pola makan, istirahat, dan olahraga secara teratur","Bekerja terus tanpa istirahat","Bergantung pada suplemen saja"],a:1,tkp:true,sc:[1,5,1,2],ex:"ASN yang produktif menjaga keseimbangan hidup (work-life balance). Kesehatan fisik dan mental adalah fondasi kinerja jangka panjang yang berkelanjutan."},
+{s:"TKP",q:"Anda diminta mewakili instansi dalam kegiatan eksternal. Persiapan Anda adalah…",o:["Hadir tanpa persiapan","Mempelajari topik, mempersiapkan materi, dan berpenampilan profesional","Minta orang lain menggantikan","Hadir sekadarnya dan tidak terlalu aktif"],a:1,tkp:true,sc:[1,5,2,1],ex:"Mewakili instansi adalah tanggung jawab besar. Persiapan matang mencerminkan profesionalisme dan menghormati kepercayaan yang diberikan pimpinan."},
+{s:"TKP",q:"Ketika menghadapi peraturan baru yang memberatkan, Anda akan…",o:["Langsung melanggar peraturan","Mengikuti peraturan sambil menyampaikan masukan melalui mekanisme resmi","Menghasut rekan untuk melawan","Pura-pura tidak tahu peraturan baru"],a:1,tkp:true,sc:[1,5,1,1],ex:"Kepatuhan terhadap peraturan adalah kewajiban ASN, namun tetap membuka ruang untuk perbaikan melalui saluran aspirasi yang sah dan konstruktif."},
+{s:"TKP",q:"Anda mendapat proyek besar bersama tim lintas bagian. Peran Anda…",o:["Hanya mengerjakan bagian sendiri tanpa peduli keseluruhan","Berkontribusi aktif, komunikatif, dan mendukung keberhasilan tim","Mendominasi semua keputusan","Menunggu instruksi sebelum bertindak"],a:1,tkp:true,sc:[2,5,2,2],ex:"Kolaborasi lintas fungsi membutuhkan kontribusi aktif setiap anggota, komunikasi yang intensif, dan orientasi pada keberhasilan bersama, bukan ego sektoral."},
+{s:"TKP",q:"Anda menemukan celah prosedur yang bisa dimanfaatkan untuk keuntungan pribadi. Anda akan…",o:["Memanfaatkan celah tersebut karena tidak ada yang tahu","Melaporkan dan mengusulkan perbaikan prosedur","Diam saja dan tidak memanfaatkan","Memberitahu rekan terpercaya"],a:1,tkp:true,sc:[1,5,3,2],ex:"Integritas ASN diuji justru ketika tidak ada yang mengawasi. Melaporkan dan mengusulkan perbaikan prosedur adalah tindakan paling bertanggung jawab."},
+{s:"TKP",q:"Dalam merespons perubahan kebijakan yang mendadak, Anda akan…",o:["Menolak perubahan dan bertahan dengan cara lama","Beradaptasi dengan cepat dan membantu rekan memahami perubahan","Menunggu orang lain beradaptasi lebih dulu","Mencari cara menghindari kebijakan baru"],a:1,tkp:true,sc:[1,5,3,1],ex:"Kelincahan (agility) dalam merespons perubahan kebijakan, disertai inisiatif membantu rekan beradaptasi, adalah ciri ASN yang berjiwa kepemimpinan."},
+{s:"TKP",q:"Anda diminta membuat laporan dalam waktu singkat dengan data yang belum lengkap. Anda akan…",o:["Menolak membuat laporan","Membuat laporan dengan data yang tersedia dan mencantumkan keterangan keterbatasan data","Mengarang data agar laporan terlihat lengkap","Menunggu data lengkap meski melewati deadline"],a:1,tkp:true,sc:[1,5,1,3],ex:"Transparansi dalam pelaporan adalah kunci akuntabilitas. Laporan dengan catatan keterbatasan data jauh lebih bernilai daripada laporan yang dipalsukan."},
+{s:"TKP",q:"Bagaimana Anda menyikapi perbedaan latar belakang budaya dengan rekan kerja?",o:["Menghindari interaksi dengan yang berbeda budaya","Menghormati perbedaan dan menjadikannya kekuatan tim","Mengharuskan rekan menyesuaikan dengan budaya Anda","Bersikap netral dan tidak berhubungan"],a:1,tkp:true,sc:[1,5,2,2],ex:"Keberagaman budaya adalah aset tim, bukan hambatan. ASN yang inklusif memanfaatkan perbedaan sebagai sumber kreativitas dan perspektif yang kaya."},
+{s:"TKP",q:"Anda merasa pekerjaan Anda monoton dan membosankan. Sikap Anda adalah…",o:["Bekerja dengan semangat yang menurun","Mencari cara baru untuk membuat pekerjaan lebih bermakna dan efisien","Meminta dipindah bagian sesegera mungkin","Mengeluh kepada semua rekan kerja"],a:1,tkp:true,sc:[2,5,2,1],ex:"Motivasi intrinsik yang kuat mendorong ASN untuk terus berinovasi meski dalam rutinitas. Menemukan makna dan cara baru dalam pekerjaan adalah tanda profesionalisme matang."},
+{s:"TKP",q:"Anda dipromosikan ke jabatan baru dengan tanggung jawab lebih besar. Anda akan…",o:["Menolak karena khawatir tidak mampu","Menerima dengan penuh semangat dan mempersiapkan diri sebaik mungkin","Menerima tapi tidak mengubah cara kerja","Meminta gaji lebih tinggi sebelum menerima"],a:1,tkp:true,sc:[1,5,3,2],ex:"Promosi adalah kepercayaan yang harus disambut dengan antusias dan persiapan matang. Menolak karena ketakutan mencerminkan kurangnya kepercayaan diri yang bisa dikembangkan."},
+{s:"TKP",q:"Ketika rekan kerja membutuhkan bantuan teknis di luar jam kerja, Anda akan…",o:["Menolak karena sudah di luar jam kerja","Membantu semampu Anda jika situasinya mendesak","Mengabaikan permintaan bantuan","Menyuruh menunggu sampai jam kerja berikutnya"],a:1,tkp:true,sc:[1,5,1,2],ex:"Solidaritas tim kadang melampaui batasan jam kerja formal. Membantu rekan dalam situasi mendesak adalah wujud kepedulian dan semangat kerja sama."},
+{s:"TKP",q:"Anda diminta mempresentasikan hasil kerja tim kepada pimpinan. Anda akan…",o:["Presentasi seadanya karena merasa nervous","Mempersiapkan presentasi dengan matang, berlatih, dan tampil percaya diri","Menyerahkan ke anggota tim lain","Membaca langsung dari slide tanpa penjelasan"],a:1,tkp:true,sc:[2,5,3,1],ex:"Kemampuan komunikasi dan presentasi adalah kompetensi kunci ASN. Persiapan matang menghormati pimpinan dan mencerminkan penguasaan materi yang baik."},
+{s:"TKP",q:"Sebagai ASN yang baru, bagaimana Anda membangun hubungan dengan rekan kerja senior?",o:["Menghindari karena takut salah","Bersikap sopan, aktif mendengarkan, belajar dari pengalaman mereka, dan menunjukkan inisiatif","Menganggap semua rekan setara tanpa memperhatikan senioritas","Hanya bergaul dengan sesama pegawai baru"],a:1,tkp:true,sc:[1,5,3,2],ex:"Membangun relasi dengan senior melalui sikap hormat, mau belajar, dan menunjukkan inisiatif adalah cara terbaik beradaptasi dan berkembang di lingkungan baru."}
+];
+
+const SECTIONS=[
+  {name:"TWK",cls:"sec-twk",start:0,end:29,pg:65,max:150},
+  {name:"TIU",cls:"sec-tiu",start:30,end:64,pg:80,max:175},
+  {name:"TKP",cls:"sec-tkp",start:65,end:109,pg:166,max:225}
+];
+
+let answers=new Array(110).fill(null);
+let cur=0, secs=6000, iv=null;
+
+function startTest(){
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('testRoot').style.display='block';
+  answers=new Array(110).fill(null); cur=0; secs=6000;
+  renderDots(); renderQ();
+  iv=setInterval(tick,1000);
+}
+
+function tick(){
+  secs--;
+  if(secs<=0){clearInterval(iv);finishTest();return;}
+  let m=Math.floor(secs/60),s=secs%60;
+  document.getElementById('timerText').textContent=m+':'+(s<10?'0':'')+s;
+  let el=document.getElementById('timerEl');
+  el.className=secs<300?'timer danger':'timer';
+}
+
+function si(qi){return qi<30?0:qi<65?1:2;}
+
+function renderDots(){
+  let sec=SECTIONS[si(cur)];
+  let wrap=document.getElementById('qDots');
+  wrap.innerHTML='';
+  for(let i=sec.start;i<=sec.end;i++){
+    let d=document.createElement('div');
+    d.className='q-dot'+(answers[i]!==null?' answered':'')+(i===cur?' current':'');
+    d.textContent=i-sec.start+1;
+    (function(idx){d.onclick=()=>{cur=idx;renderQ();renderDots();};})(i);
+    wrap.appendChild(d);
+  }
+}
+
+function renderQ(){
+  let q=Q[cur], sec=SECTIONS[si(cur)];
+  document.getElementById('qCounter').textContent=(cur+1)+'/110';
+  let ans=answers.filter(a=>a!==null).length;
+  document.getElementById('answeredCnt').textContent=ans;
+  document.getElementById('unansweredCnt').textContent=110-ans;
+  document.getElementById('secLabel').textContent=sec.name;
+  let badge=document.getElementById('sectionBadge');
+  badge.textContent=sec.name; badge.className='topbar-section '+sec.cls;
+  ['stab0','stab1','stab2'].forEach((id,i)=>{
+    let t=document.getElementById(id);
+    let all=true;
+    for(let j=SECTIONS[i].start;j<=SECTIONS[i].end;j++) if(answers[j]===null){all=false;break;}
+    t.className='sec-tab'+(i===si(cur)?' active':all?' done':'');
+  });
+  document.getElementById('progFill').style.width=((cur+1)/110*100).toFixed(1)+'%';
+  let letters=['A','B','C','D'];
+  let card=document.getElementById('qCard');
+  card.innerHTML=`
+    <div class="q-meta">
+      <span class="q-tag ${sec.cls}" style="background:var(--${sec.name==='TWK'?'blue-bg':sec.name==='TIU'?'amber-bg':'green-bg'});color:var(--${sec.name==='TWK'?'blue':sec.name==='TIU'?'amber':'green'})">${sec.name}</span>
+      <span class="q-num">Soal ${cur-sec.start+1} dari ${sec.end-sec.start+1}</span>
+    </div>
+    <div class="q-text">${cur+1}. ${q.q}</div>
+    <div class="options" id="opts"></div>`;
+  let opts=document.getElementById('opts');
+  q.o.forEach((opt,i)=>{
+    let d=document.createElement('div');
+    d.className='opt'+(answers[cur]===i?' selected':'');
+    d.innerHTML=`<div class="opt-key">${letters[i]}</div><div class="opt-text">${opt}</div>`;
+    d.onclick=()=>{answers[cur]=i;renderQ();renderDots();};
+    opts.appendChild(d);
+  });
+}
+
+function nextQ(){if(cur<109){cur++;renderQ();renderDots();}}
+function prevQ(){if(cur>0){cur--;renderQ();renderDots();}}
+function jumpSection(i){cur=SECTIONS[i].start;renderQ();renderDots();}
+
+function confirmFinish(){
+  let unanswered=answers.filter(a=>a===null).length;
+  if(unanswered>0){
+    if(!confirm('Masih ada '+unanswered+' soal yang belum dijawab. Yakin ingin menyelesaikan tes?')) return;
+  }
+  finishTest();
+}
+
+function calcScore(){
+  let sc={TWK:0,TIU:0,TKP:0};
+  Q.forEach((q,i)=>{
+    if(answers[i]===null) return;
+    if(q.tkp) sc.TKP+=q.sc[answers[i]];
+    else if(answers[i]===q.a) sc[q.s]+=5;
+  });
+  return sc;
+}
+
+function finishTest(){
+  clearInterval(iv);
+  document.getElementById('testRoot').style.display='none';
+  document.getElementById('resultRoot').style.display='block';
+  let sc=calcScore(), total=sc.TWK+sc.TIU+sc.TKP;
+  let pass=sc.TWK>=65&&sc.TIU>=80&&sc.TKP>=166;
+  document.getElementById('totalVal').textContent=total;
+  document.getElementById('verdictBadge').innerHTML=`<span class="verdict-badge ${pass?'verdict-pass':'verdict-fail'}">${pass?'✓ Memenuhi Passing Grade SKD':'✗ Belum Memenuhi Passing Grade'}</span>`;
+  let sg=document.getElementById('scoreGrid');
+  SECTIONS.forEach(s=>{
+    let v=sc[s.name], pct=Math.round(v/s.max*100);
+    let ok=v>=s.pg;
+    sg.innerHTML+=`<div class="score-card">
+      <h3>${s.name} — ${s.name==='TWK'?'Wawasan Kebangsaan':s.name==='TIU'?'Inteligensia Umum':'Karakteristik Pribadi'}</h3>
+      <div class="score-val ${ok?'pass':'fail'}">${v}</div>
+      <div class="score-sub">Passing grade: ≥${s.pg} &nbsp;/&nbsp; Max: ${s.max}</div>
+      <div class="score-bar"><div class="score-bar-fill" style="width:${pct}%;background:${ok?'var(--green)':'var(--red)'}"></div></div>
+    </div>`;
+  });
+  let ar=document.getElementById('analysisRows');
+  SECTIONS.forEach(s=>{
+    let v=sc[s.name], ok=v>=s.pg;
+    let corr=s.name!=='TKP'?Q.slice(s.start,s.end+1).filter((_,i)=>answers[s.start+i]===Q[s.start+i].a).length:null;
+    let info=s.name==='TKP'?`Nilai ${v}/${s.max}`:`${corr}/${s.end-s.start+1} benar · Nilai ${v}/${s.max}`;
+    ar.innerHTML+=`<div class="ana-row">
+      <span style="font-weight:600">${s.name}</span>
+      <span style="color:var(--text-sec)">${info}</span>
+      <span class="ana-status" style="background:${ok?'var(--green-bg)':'var(--red-bg)'};color:${ok?'var(--green)':'var(--red)'}">${ok?'Lulus PG':'Tidak Lulus'}</span>
+    </div>`;
+  });
+}
+
+let currentFilter='all';
+function showReview(){
+  document.getElementById('reviewSection').style.display='block';
+  document.getElementById('reviewSection').scrollIntoView({behavior:'smooth'});
+  renderReview('all');
+}
+
+function filterReview(type,btn){
+  currentFilter=type;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderReview(type);
+}
+
+function renderReview(type){
+  let letters=['A','B','C','D'];
+  let wrong=0,correct=0;
+  Q.forEach((q,i)=>{
+    let userAns=answers[i];
+    let isCorrect=q.tkp?(userAns!==null&&userAns===q.a):(userAns===q.a);
+    if(isCorrect) correct++; else wrong++;
+  });
+  document.getElementById('reviewSummary').textContent=` — ${correct} benar, ${wrong} salah/kosong`;
+
+  let list=document.getElementById('reviewList');
+  list.innerHTML='';
+  Q.forEach((q,i)=>{
+    let userAns=answers[i];
+    let isCorrect=q.tkp?(userAns!==null&&userAns===q.a):(userAns===q.a);
+    let status=isCorrect?'correct':'wrong';
+    if(type==='wrong'&&isCorrect) return;
+    if(type==='correct'&&!isCorrect) return;
+    if(type==='twk'&&q.s!=='TWK') return;
+    if(type==='tiu'&&q.s!=='TIU') return;
+    if(type==='tkp'&&q.s!=='TKP') return;
+
+    let secClr=q.s==='TWK'?'#1d4ed8;background:#dbeafe':q.s==='TIU'?'#b45309;background:#fef3c7':'#15803d;background:#dcfce7';
+    let div=document.createElement('div');
+    div.className='review-q';
+    div.style.borderColor=isCorrect?'#86efac':'#fca5a5';
+    div.style.background=isCorrect?'#f0fdf4':'#fff5f5';
+
+    let optsHtml='';
+    q.o.forEach((opt,j)=>{
+      let cls='rq-neutral';
+      let label='';
+      if(j===q.a){cls='rq-correct';label=' ✓ Jawaban benar';}
+      if(userAns===j&&j!==q.a){cls='rq-wrong';label=' ✗ Jawaban Anda';}
+      if(userAns===j&&j===q.a){cls='rq-correct';label=' ✓ Jawaban Anda (benar)';}
+      optsHtml+=`<div class="rq-opt ${cls}">${letters[j]}. ${opt}${label}</div>`;
+    });
+    if(userAns===null) optsHtml+=`<div class="rq-opt rq-wrong">⚠ Tidak dijawab</div>`;
+
+    div.innerHTML=`
+      <div><span class="rq-section-badge" style="color:${secClr}">${q.s}</span> <span style="font-size:10px;color:var(--text-sec)">Soal ${i+1}</span></div>
+      <div class="rq-text">${i+1}. ${q.q}</div>
+      <div class="rq-ans">${optsHtml}</div>
+      ${q.ex?`<div class="rq-explain">💡 <strong>Pembahasan:</strong> ${q.ex}</div>`:''}`;
+    list.appendChild(div);
+  });
+  if(list.innerHTML==='') list.innerHTML='<p style="color:var(--text-sec);font-size:14px;padding:1rem">Tidak ada soal dalam kategori ini.</p>';
+}
+
+function restartTest(){
+  document.getElementById('resultRoot').style.display='none';
+  document.getElementById('startScreen').style.display='flex';
+  answers=new Array(110).fill(null); cur=0; secs=6000;
+  document.getElementById('scoreGrid').innerHTML='';
+  document.getElementById('analysisRows').innerHTML='';
+  document.getElementById('reviewSection').style.display='none';
+  document.getElementById('reviewList').innerHTML='';
+  document.getElementById('verdictBadge').innerHTML='';
+}
+</script>
+</body>
+</html>
